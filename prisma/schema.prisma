@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Audio {
+  id          Int      @id @default(autoincrement())
+  originalUrl String   // URL оригинальной записи
+  clonedUrl   String?  // URL клонированного голоса от ElevenLabs
+  voiceId     String?  // ID голоса в ElevenLabs
+  status      String   @default("processing") // processing, completed, error
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ChatResponse {
+  id        Int      @id @default(autoincrement())
+  question  String
+  audioUrl  String
+  voiceId   String?  // Связь с клонированным голосом
+  createdAt DateTime @default(now())
+}
