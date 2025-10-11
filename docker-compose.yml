@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      target: development
+    container_name: voicemirror-api
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/VoiceMirror?schema=public
+      - BASE_URL=http://localhost:3000
+      - ELEVENLABS_API_KEY=sk_f051a26388d6c2e07ce5f6c5317d04349cc17b843734030f
+      - PORT=3000
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - uploads_data:/usr/src/app/uploads
+    command: sh -c "sleep 5 && npx prisma db push --accept-data-loss && npm run start:dev"
+    restart: unless-stopped
+    networks:
+      - voicemirror-network
+
+  db:
+    image: postgres:15-alpine
+    container_name: voicemirror-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=VoiceMirror
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./dumps/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d VoiceMirror']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - voicemirror-network
+
+  # # Опциональный Redis для кэширования (если потребуется в будущем)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: voicemirror-redis
+  #   ports:
+  #     - '6380:6379'
+  #   volumes:
+  #     - redis_data:/data
+  #   healthcheck:
+  #     test: ['CMD', 'redis-cli', 'ping']
+  #     interval: 10s
+  #     timeout: 3s
+  #     retries: 3
+  #   restart: unless-stopped
+  #   networks:
+  #     - voicemirror-network
+  #   profiles:
+  #     - with-redis # Запускается только при указании профиля
+
+volumes:
+  postgres_data:
+    driver: local
+  # redis_data:
+  #   driver: local
+  uploads_data:
+    driver: local
+
+networks:
+  voicemirror-network:
+    driver: bridge
