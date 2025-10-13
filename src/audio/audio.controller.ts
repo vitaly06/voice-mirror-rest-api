@@ -172,4 +172,55 @@ export class AudioController {
   ): Promise<GeneratedSpeechDto> {
     return this.audioService.generateCustomResponse(body.text, body.voiceId);
   }
+
+  @Get('voices')
+  @ApiOperation({
+    summary: '🎤 Получить список голосов',
+    description:
+      'Возвращает список всех созданных голосов в ElevenLabs для управления лимитами.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Список голосов успешно получен',
+  })
+  async getVoices() {
+    return this.audioService.listVoices();
+  }
+
+  @Post('voices/cleanup')
+  @ApiOperation({
+    summary: '🧹 Очистить старые голоса',
+    description:
+      'Удаляет старые неиспользуемые пользовательские голоса из ElevenLabs для освобождения места.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Старые голоса успешно удалены',
+  })
+  async cleanupVoices() {
+    return this.audioService.cleanupOldVoices();
+  }
+
+  @Post('voices/:voiceId/delete')
+  @ApiOperation({
+    summary: '🗑️ Удалить конкретный голос',
+    description:
+      'Принудительно удаляет конкретный голос по его ID из ElevenLabs.',
+  })
+  @ApiParam({
+    name: 'voiceId',
+    description: 'ID голоса в ElevenLabs',
+    example: 'voice_id_123456',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Голос успешно удален',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Голос не найден',
+  })
+  async deleteVoice(@Param('voiceId') voiceId: string) {
+    return this.audioService.deleteVoiceById(voiceId);
+  }
 }
