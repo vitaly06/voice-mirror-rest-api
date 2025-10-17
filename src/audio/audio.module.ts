@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AudioService } from './audio.service';
 import { AudioController } from './audio.controller';
+import { AvatarService } from './avatar.service';
+import { AvatarController } from './avatar.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import * as path from 'path';
@@ -25,7 +27,7 @@ if (!fs.existsSync(uploadsDir)) {
         },
       }),
       limits: {
-        fileSize: 10 * 1024 * 1024, // 10MB
+        fileSize: 10 * 1024 * 1024, // 10MB для аудио, 5MB для изображений
       },
       fileFilter: (req, file, cb) => {
         const allowedMimes = [
@@ -33,6 +35,9 @@ if (!fs.existsSync(uploadsDir)) {
           'audio/mp3',
           'audio/mpeg',
           'audio/m4a',
+          'image/jpeg',
+          'image/jpg',
+          'image/png',
         ];
         if (allowedMimes.includes(file.mimetype)) {
           cb(null, true);
@@ -42,8 +47,8 @@ if (!fs.existsSync(uploadsDir)) {
       },
     }),
   ],
-  controllers: [AudioController],
-  providers: [AudioService],
-  exports: [AudioService],
+  controllers: [AudioController, AvatarController],
+  providers: [AudioService, AvatarService],
+  exports: [AudioService, AvatarService],
 })
 export class AudioModule {}

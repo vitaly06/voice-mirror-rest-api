@@ -1,0 +1,7 @@
+Mock video created at: 2025-10-14T17:34:58.511Z
+Original output path: uploads\animated_2_1760463298456.mp4
+Status: FFmpeg not available, created placeholder MP4
+To enable real video processing, install FFmpeg:
+  Windows: choco install ffmpeg
+  macOS: brew install ffmpeg
+  Ubuntu: sudo apt install ffmpeg

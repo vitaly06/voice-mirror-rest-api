@@ -12,7 +12,7 @@ services:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/VoiceMirror?schema=public
       - BASE_URL=http://localhost:3000
-      - ELEVENLABS_API_KEY=sk_f051a26388d6c2e07ce5f6c5317d04349cc17b843734030f
+      - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY:-sk_0dde9fb5eded49c2a387ddb2088d4c2491b7509245b19fc7}
       - PORT=3000
     depends_on:
       db:

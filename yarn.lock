@@ -413,6 +413,13 @@
     "@eslint/core" "^0.16.0"
     levn "^0.4.1"
 
+"@gradio/client@^2.0.0-dev.0":
+  version "2.0.0-dev.0"
+  resolved "https://registry.npmjs.org/@gradio/client/-/client-2.0.0-dev.0.tgz"
+  integrity sha512-ddVt6I/LWX5hvIY8GjgliMo6WfGe5Ahp9S951502WpN9o6tkAXNnvX+QALnFYoW7ecK4vI6WaxXetF8lzACrhw==
+  dependencies:
+    fetch-event-stream "^0.1.5"
+
 "@humanfs/core@^0.19.1":
   version "0.19.1"
   resolved "https://registry.npmjs.org/@humanfs/core/-/core-0.19.1.tgz"
@@ -2784,6 +2791,11 @@ fb-watchman@^2.0.2:
   integrity sha512-p5161BqbuCaSnB8jIbzQHOlpgsPmK5rJVDfDKO91Axs5NC1uu3HRQm6wt9cd9/+GtQQIO53JdGXXoyDpTAsgYA==
   dependencies:
     bser "2.1.1"
+
+fetch-event-stream@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.npmjs.org/fetch-event-stream/-/fetch-event-stream-0.1.5.tgz"
+  integrity sha512-V1PWovkspxQfssq/NnxoEyQo1DV+MRK/laPuPblIZmSjMN8P5u46OhlFQznSr9p/t0Sp8Uc6SbM3yCMfr0KU8g==
 
 fflate@^0.8.2:
   version "0.8.2"
